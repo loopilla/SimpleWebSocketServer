@@ -1,0 +1,28 @@
+{
+  "name": "simplewebsocketserver",
+  "version": "0.0.1",
+  "description": "Simple websocket server module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loopilla/SimpleWebSocketServer.git"
+  },
+  "keywords": [
+    "websocket",
+    "server",
+    "npm"
+  ],
+  "author": "loopilla",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/loopilla/SimpleWebSocketServer/issues"
+  },
+  "homepage": "https://github.com/loopilla/SimpleWebSocketServer#readme",
+  "dependencies": {
+    "websocket": "^1.0.23"
+  }
+}
