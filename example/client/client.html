@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var wsClient = function(options) {
+            var opts = options || {};
+            var socket = new WebSocket(opts.url, opts.protocol);
+
+            function send(message) {
+                var msg = {
+                    type: 'message',
+                    message: message
+                };
+                socket.send(JSON.stringify(msg));
+            }
+
+            socket.onmessage = function(event){
+                var msg = JSON.parse(event.data);
+                var logs = document.getElementById('logs');
+                logs.innerText = logs.innerText + 'Received: ' + msg.message + String.fromCharCode(13); 
+            };
+
+            return {
+                send: send
+            }
+        };
+
+        (function(){
+            var client;
+            var init = function(){
+                var button = document.getElementById('sendMsg');
+                button.addEventListener('click', function(event){
+                    var text = document.getElementById('message').value;
+                    var logs = document.getElementById('logs');
+                    logs.innerText = logs.innerText + 'Sent: ' + text + String.fromCharCode(13); 
+                    client.send(text);
+                });
+            };
+
+            document.addEventListener("DOMContentLoaded", function(event) {
+                client = new wsClient({
+                    url: 'ws://127.0.0.1:9000',
+                    protocol: 'echo-protocol'
+                });
+                init();
+            });
+
+        })();
+    </script>
+    <h1>Websocket wrapper example</h1>
+    <input type="text" id="message" />
+    <button id="sendMsg">Send</button>
+    <div id="logs" />
+</body>
+</html>

@@ -13,15 +13,15 @@ class SimpleWebSocketServer {
             //http server instance
             this.options.httpServer = opts.httpServer; 
         } else {
-            throw 'HTTP server instance or port number shoud be defined in options.';
+            throw new Error('HTTP server instance or port number shoud be defined in options.');
         }
 
         this.options = this.extend(opts, this.options, false);
 
         this.options.autoAcceptConnections = this.options.autoAcceptConnections || false;
-        this.options.validator = this.options.validator || function(request) {
+        this.options.validator = this.options.validator || ((request) => {
                  return true;
-             };
+             });
 
         this[_handlersArr] = new Map();
         this[_validator] = this.options.validator;
@@ -33,7 +33,7 @@ class SimpleWebSocketServer {
 
         var clazz = this;
 
-        this[_instance].on('request', function(request) {
+        this[_instance].on('request', (request) => {
             if (!clazz[_validator].call(request)) {
                 // Make sure we only accept requests from an allowed origin
                 request.reject();
@@ -43,7 +43,7 @@ class SimpleWebSocketServer {
 
             var connection = request.accept(clazz.options.protocol, request.origin);
 
-            clazz[_handlersArr].forEach(function(value, key, map){
+            clazz[_handlersArr].forEach((value, key, map) => {
                 connection.on(key, value);
             });
         });
@@ -62,7 +62,7 @@ class SimpleWebSocketServer {
     }
 
     extend(obj, src, override) {
-        Object.keys(src).forEach(function(key) {
+        Object.keys(src).forEach( (key) => {
             obj[key] = src[key];
         });
         return obj;
