@@ -18,13 +18,13 @@ wsServer = new socketServer({
 });
 
 
-wsServer.addHandler('message', function(message){
+wsServer.addHandler('message', (message) => {
         console.log('Incoming utf8 msg: ', message.utf8Data);
         this.sendUTF(message.utf8Data);
     }
 );
 
-wsServer.addHandler('close', function(reasonCode, description){
+wsServer.addHandler('close', (reasonCode, description) => {
         console.log('dissconnect');
     }
 );
